@@ -4,23 +4,23 @@
 #include "board.h"
 
 // inline?
-char board_idx(char *board, int max_y, int x, int y) {
-  return board[x*max_y+y];
+char board_idx(char *board, int max_x, int y, int x) {
+  return board[y*max_x+x];
 }
 
 
 // inline?
-char board_mod_idx(char *board, int max_x, int max_y, int x, int y) {
-  int modx = mod(x, max_x);
+char board_mod_idx(char *board, int max_y, int max_x, int y, int x) {
   int mody = mod(y, max_y);
-  return board_idx(board, max_y, modx, mody);
+  int modx = mod(x, max_x);
+  return board_idx(board, max_x, mody, modx);
 }
 
 
-void board_print(char *arr, int x,int y) {
-  for (int i = 0; i < x; i++) {
-    for (int j = 0; j < y; j++) {
-      printf("%c", board_idx(arr,y,i,j) ? 'x' : '.');
+void board_print(char *arr, int y, int x) {
+  for (int i = 0; i < y; i++) {
+    for (int j = 0; j < x; j++) {
+      printf("%c", board_idx(arr,x,i,j) ? 'x' : '.');
     }
     printf("\n");
   }

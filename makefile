@@ -1,11 +1,14 @@
 CC       = gcc
 CFLAGS   = -Wall -Werror -Wextra -pedantic
-#INCLUDES = -lncurses -ltinfo
+INCLUDES = -lncurses -ltinfo
 
 UTILS = utils
 BOARD = board
 GAME  = game
 MAIN  = main
+
+$(MAIN): $(MAIN).c $(GAME).o $(BOARD).o $(UTILS).o
+	$(CC) $(CFLAGS) $(MAIN).c $(GAME).o $(BOARD).o $(UTILS).o $(INCLUDES) -o $(MAIN)
 
 $(UTILS).o: $(UTILS).c $(UTILS).h
 	$(CC) -c $(CFLAGS) $(UTILS).c -o $(UTILS).o
@@ -15,9 +18,6 @@ $(BOARD).o: $(BOARD).c $(BOARD).h $(UTILS).o
 
 $(GAME).o: $(GAME).c $(GAME).h $(UTILS).o
 	$(CC) -c $(CFLAGS) $(GAME).c -o $(GAME).o
-
-$(MAIN): $(MAIN).c $(GAME).o $(BOARD).o $(UTILS).o
-	$(CC) $(CFLAGS) $(MAIN).c $(GAME).o $(BOARD).o $(UTILS).o -o $(MAIN)
 
 tests: tests.c $(GAME).o $(BOARD).o $(UTILS).o
 	$(CC) $(CFLAGS) tests.c $(GAME).o $(BOARD).o $(UTILS).o -o tests
